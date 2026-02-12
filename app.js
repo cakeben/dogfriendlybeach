@@ -1,5 +1,4 @@
 import { beaches } from './data.js';
-import { devonBeachGuide } from './devon-beachguide.js';
 
 const form = document.getElementById('search-form');
 const addressInput = document.getElementById('address');
@@ -9,10 +8,6 @@ const rowsEl = document.getElementById('rows');
 const radiusEl = document.getElementById('radius');
 const radiusVal = document.getElementById('radius-val');
 const sortEl = document.getElementById('sort');
-const devonSummaryEl = document.getElementById('devon-summary');
-const devonAllowedEl = document.getElementById('devon-allowed');
-const devonRestrictedEl = document.getElementById('devon-restricted');
-const devonBannedEl = document.getElementById('devon-banned');
 
 const defaultCenter = [54.4, -3.5];
 const defaultZoom = 5.5;
@@ -159,24 +154,6 @@ function computeView() {
 
 
 
-function renderDevonBeachGuide() {
-  const counts = devonBeachGuide.counts;
-  devonSummaryEl.textContent = `Devon snapshot: ${counts.allowed} allowed, ${counts.restricted} restricted, ${counts.banned} banned.`;
-
-  const fill = (el, arr) => {
-    el.innerHTML = '';
-    arr.forEach((b) => {
-      const li = document.createElement('li');
-      li.innerHTML = `<a href="${b.url}" target="_blank" rel="noopener noreferrer">${b.name}</a>`;
-      el.appendChild(li);
-    });
-  };
-
-  fill(devonAllowedEl, devonBeachGuide.data.allowed);
-  fill(devonRestrictedEl, devonBeachGuide.data.restricted);
-  fill(devonBannedEl, devonBeachGuide.data.banned);
-}
-
 function resetView() {
   userLoc = null;
   addressInput.value = '';
@@ -184,7 +161,7 @@ function resetView() {
     userMarker.remove();
     userMarker = undefined;
   }
-  statusEl.textContent = 'Showing UK dog friendly beach list.';
+  statusEl.textContent = 'Showing UK dog-allowed beaches from The Beach Guide.';
   computeView();
 }
 
@@ -209,5 +186,4 @@ resetBtn.addEventListener('click', resetView);
 radiusEl.addEventListener('input', computeView);
 sortEl.addEventListener('change', computeView);
 
-renderDevonBeachGuide();
 resetView();
